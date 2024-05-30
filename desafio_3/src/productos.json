@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Camisa",
+    "description": "Descripción de la camisa",
+    "price": 20,
+    "thumbnail": "imagen.jpg",
+    "code": "12345",
+    "stock": 100
+  },
+  {
+    "id": 2,
+    "title": "remera",
+    "description": "Descripción de la remera",
+    "price": 10,
+    "thumbnail": "imagen.jpg",
+    "code": "12547",
+    "stock": 90
+  },
+  {
+    "id": 3,
+    "title": "celular",
+    "description": "Descripción del celular",
+    "price": 10,
+    "thumbnail": "imagen.jpg",
+    "code": "12557",
+    "stock": 90
+  },
+  {
+    "id": 4,
+    "title": "mouse",
+    "description": "Descripcion del mouse",
+    "price": 10,
+    "thumbnail": "imagen.jpg",
+    "code": "11547",
+    "stock": 90
+  }
+]

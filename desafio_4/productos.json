@@ -1,0 +1,46 @@
+[
+  {
+    "id": 5,
+    "title": "casco",
+    "description": "9",
+    "price": "9",
+    "thumbnail": "9",
+    "code": "9",
+    "stock": "9",
+    "status": true,
+    "category": "9"
+  },
+  {
+    "id": 7,
+    "title": "camaron",
+    "description": "78",
+    "price": "78",
+    "thumbnail": "78",
+    "code": "78",
+    "stock": "78",
+    "status": true,
+    "category": "78"
+  },
+  {
+    "id": 8,
+    "title": "coder",
+    "description": "house",
+    "price": "89",
+    "thumbnail": "89",
+    "code": "89",
+    "stock": "89",
+    "status": true,
+    "category": "89"
+  },
+  {
+    "id": 9,
+    "title": "pizza",
+    "description": "adfsd",
+    "price": "12",
+    "thumbnail": "12",
+    "code": "121",
+    "stock": "12",
+    "status": true,
+    "category": "12"
+  }
+]
