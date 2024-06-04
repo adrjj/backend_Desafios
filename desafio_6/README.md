@@ -18,6 +18,10 @@ En este proyecto se utilizo de la biblioteca de node.js
 
 -connect-mongo
 
+-passport-local
+
+-passport-githubv2
+
 Este proyecto tiene la base de un ECOMERCE el paso mas importante es que esta conectado todo con la
 base de datos de MONGO db Atlas
 
@@ -43,9 +47,11 @@ api/session/register
 Datos del perfil
 api/session/profile
 
+
 ------------------- PERFILE DE USUARIO Y REGISTRO --------------------------
 
-
+INICIO DE SESION CON GITHUB
+![Texto Alternativo](./imagenes/ingresar_github.png)
 
 INICIO DE SESION
 ![Texto Alternativo](./imagenes/iniciar_session.png)

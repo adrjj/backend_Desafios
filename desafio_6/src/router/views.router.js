@@ -35,7 +35,7 @@ router.get("/products", async (req, res) => {
         let page = parseInt(req.query.page) || 1; // Definir la página antes de usarla
         const welcome = req.query.welcome || '';
         // Obtener el nombre de usuario de la sesión
-        const username = req.session.user ? req.session.user.username : '';
+        const username = req.session.user ? (req.session.user.username || req.session.user.email) : ''; // Usa email si username no existe
 
         // Obtener los productos paginados directamente desde la base de datos
         const productos = await productModel.paginate({}, { page, limit: 6, lean: true });
@@ -47,8 +47,8 @@ router.get("/products", async (req, res) => {
         let welcomeMessage = "";
         if (welcome === "1") {
             welcomeMessage = `¡Bienvenido/a,  <strong>${username}</strong>, a nuestra tienda en línea!`;
-        }
-
+        }   
+        console.log("1get/products",username)
         // Renderizar la vista 'products' con los productos paginados
         //res.render("products", { productos });
         res.render("products", { productos, welcomeMessage });

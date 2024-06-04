@@ -8,6 +8,12 @@ const passport = require("passport");
 const isAuthenticated = authenticatedMiddleware.isAuthenticated;
 const isNotAuthenticated = authenticatedMiddleware.isNotAuthenticated;
 
+router.get("/github",passport.authenticate("github",{scope:"user.email"}),async(req,res)=>{})
+
+router.get("/githubCallback",passport.authenticate("github",{failureRedirect:"/login"}),async(req,res)=>{
+  req.session.user=req.user
+  res.redirect("/products?welcome=1")
+})
 
 router.get("/register", isNotAuthenticated, (req, res) => {
   res.render("register"); // Renderiza la vista de registro
@@ -95,11 +101,12 @@ router.post("/login", passport.authenticate("login", { failureRedirect: "faillog
     req.session.user = {
       first_name: req.user.first_name,
       last_name: req.user.last_name,
-      email: req.user.email,
-      isAdmin:req.user.isAdmin
+      email: req.user.email,   
+      isAdmin:req.user.isAdmin,
+      username: req.user.username 
     }
     console.log(req.session.user)
-   // res.redirect("/products?welcome=1")
+  
      // Verificar si el usuario es un administrador
      if (req.user.isAdmin) {
       // Si es un administrador, redirigir a la página de productos en tiempo real para administradores
