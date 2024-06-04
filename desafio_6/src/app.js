@@ -6,6 +6,9 @@ const http = require("http").Server(app);
 const io = require("socket.io")(http); // Importing the Socket.IO server
 const path = require('path');
 const exphbs = require("express-handlebars");
+const passport=require("passport")
+const {initializePassport}= require("./config/passport.config.js")
+
 //const ProductManager = require("./dao/ProductsManager.js");
 const ProductManager = require("./dao/productManagerDb.js");
 const manager = new ProductManager();
@@ -52,6 +55,11 @@ app.use(session({
     store: mongoStore.create({ mongoUrl: process.env.CONECCCION })
 
 }));
+
+initializePassport();
+app.use(passport.initialize());
+app.use (passport.session());
+
 const viewRouter = require('./router/views.router.js');
 app.use("/", viewRouter)
 

@@ -3,6 +3,7 @@ const router = express.Router();
 const sessionModel = require("../dao/models/user.model.js")
 const authenticatedMiddleware = require("../middleware/authenticated.js");
 const { createHash, isValidPassword } = require('../utils/utils.js');
+const passport = require("passport");
 
 const isAuthenticated = authenticatedMiddleware.isAuthenticated;
 const isNotAuthenticated = authenticatedMiddleware.isNotAuthenticated;
@@ -21,7 +22,18 @@ router.get("/profile", isAuthenticated, (req, res) => {
   console.log("2//", req.session.user)
 });
 
-router.post("/register", async (req, res) => {
+
+router.post("/register", passport.authenticate("register", { failureRedirect: "failRegister" }), async (req, res) => {
+  //res.send({status:"sucess",message:"usuario regsitrado"})
+  res.redirect("login")
+
+})
+router.get("/failRegister", async (req, res) => {
+  console.log("estrategia fallida")
+  res.send(error, "fallo")
+
+})
+/*router.post("/register", async (req, res) => {
   const { first_name, last_name, email, password, isAdmin } = req.body;
 
   try {
@@ -46,9 +58,9 @@ router.post("/register", async (req, res) => {
     // Manejar errores
     res.status(500).send("Error al registrar usuario: " + error.message);
   }
-});
+});*/
 
-router.post("/login", async (req, res) => {
+/*router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
     // Espera la respuesta de la búsqueda en la base de datos
@@ -75,37 +87,43 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     res.status(500).send("Error al iniciar sesión", error);
   }
-});
+});*/
 
-/*
-
-router.post("/login", async (req, res) => {
-    const { email, password } = req.body;
-    try {
-      // Espera la respuesta de la búsqueda en la base de datos
-      const user = await sessionModel.findOne({ email });
-      if (!user) return res.status(404).send("Usuario no encontrado.");
-      req.session.user = {
-        id: user._id,
-        last_name: user.last_name,
-        first_name: user.first_name,
-        email: user.email,
-        username: user.first_name, // Almacena el nombre de usuario en la sesión
-      };
-      console.log("1//",req.session.user)
-      //res.redirect("/products");
-      res.redirect("/products?welcome=1");
-    } catch (error) {
-      res.status(500).send("Error al iniciar sesión", error);
+router.post("/login", passport.authenticate("login", { failureRedirect: "faillogin" }), async (req, res) => {
+  if (!req.user) return res.status(400).send({ status: "error", error: "datos incompletos" })
+  try {
+    req.session.user = {
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      email: req.user.email,
+      isAdmin:req.user.isAdmin
     }
-  });
-  */
+    console.log(req.session.user)
+   // res.redirect("/products?welcome=1")
+     // Verificar si el usuario es un administrador
+     if (req.user.isAdmin) {
+      // Si es un administrador, redirigir a la página de productos en tiempo real para administradores
+      return res.redirect("/realtimeproducts");
+    } else {
+      // Si no es un administrador, redirigir a la página de productos regulares
+      return res.redirect("/products?welcome=1");
+    }
+  } catch (error) {
+    res.status(500).send("error al iniciar session")
+  }
+})
+
+router.get("/faillogin", async (req, res) => {
+  console.log("login fallido")
+  res.send(error, "fallo")
+
+})
 
 router.post("/logout", async (req, res) => {
 
   req.session.destroy((err) => {
 
-    if (err) return res.status(500).send("Error al cerrar sescion", error);
+    if (err) return res.status(500).send("Error al cerrar session", error);
     res.redirect("login");
 
 
