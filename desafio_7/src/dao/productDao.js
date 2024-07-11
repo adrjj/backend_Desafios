@@ -76,4 +76,4 @@ class ProductDAO {
     }
 }
 
-module.exports = new ProductDAO();
+module.exports = ProductDAO;

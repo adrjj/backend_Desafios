@@ -22,7 +22,7 @@ function addProductToList(productos) {
 
 // Función para cargar la lista de productos cuando la página se carga inicialmente
 function loadInitialProductList() {
-    fetch('/api/products') // Hacer una solicitud HTTP GET al servidor para obtener los productos
+    fetch('api/products') // Hacer una solicitud HTTP GET al servidor para obtener los productos
         .then(response => response.json())
         .then(productos => {
             productos.forEach(product => {
@@ -34,8 +34,9 @@ function loadInitialProductList() {
         });
 }
 
+
 // Escuchar el evento 'productAdded' y actualizar la lista de productos
-socket.on('productos', (productos) => {
+socket.on('productAdded', (productos) => {
     console.log("13// esto escuhca", productos)
     addProductToList(productos);
 });

@@ -11,9 +11,9 @@ const socketLogic = (io, manager,chat) => {
                 console.log("2//esto trae ",newProduct)
                 const productos = await manager.loadProducts();
                 console.log("3//esto trae ",productos)
-                //const addedProduct = productos.find(product => product.code === newProduct.code);
+               
                 io.emit("productos", productos);
-                //console.log("4//datos de socketlogica.js enviados",addedProduct)
+         
                 console.log("5// esto se emite",productos)
             } catch (error) {
                 console.log("Error al cargar el producto", error.message);
