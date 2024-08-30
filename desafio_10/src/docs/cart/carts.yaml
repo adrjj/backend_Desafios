@@ -1,0 +1,119 @@
+paths:
+  /api/carts:
+    get:
+      summary: Obtenemos todos los productos de mi carrito
+      tags:
+      - carrito
+      responses:
+        "200":
+          description: Productos cargados correctamente
+        "500":
+          description: Error al recuperar productos
+  
+    post:
+      summary: "agregar producto al carrito y si ya lo tiene le suma un unidad mas"
+      description: "Crea un nuevo carrito para el usuario autenticado y agrega los productos seleccionados."
+      tags:
+        - carrito
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                productos:
+                  type: array
+                  description: "Lista de productos que se agregarán al carrito"
+                  items:
+                    type: object
+                    properties:
+                      pid:
+                        type: string
+                        description: "ID del producto"
+                      quantity:
+                        type: integer
+                        description: "Cantidad del producto"
+      responses:
+        '200':
+          description: "Carrito creado exitosamente."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  cart:
+                    type: object
+                    description: "Detalles del carrito creado."
+        '500':
+          description: "Error al crear el carrito."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+  
+
+  /api/carts/{cid}/products/{pid}:
+    delete:
+      summary: Eliminar un producto del carrito por ID
+      tags:
+      - carrito
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+            format: objectId
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+            format: objectId
+      responses:
+        "204":
+          description: Producto eliminado correctamente
+        "404":
+          description: Producto no encontrado
+        "500":
+          description: Error al eliminar el producto
+    
+  
+
+
+
+components:
+  schemas:
+    cartModel:
+      type: object
+      properties:
+        pid:
+          type: string
+          format: objectId
+          description: ID del producto, referencia al modelo `products`
+        quantity:
+          type: integer
+          description: Cantidad del producto en el carrito
+      required:
+        - pid
+        - quantity
+
+    Cart:
+      type: object
+      properties:
+        productos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductReference'
+      required:
+        - productos
